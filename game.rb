@@ -1,11 +1,11 @@
 #since this class will be the one being run by human require_relative board and player 
 require 'active_support/all'
-require_relative "./zombie"
+require_relative "./computer"
 require_relative "./human"
 require 'pry'
 
 class Game
-  attr_accessor :board, :boards, :humans, :zombies
+  attr_accessor :board, :boards, :humans, :zombies, :countdown
 
   def initialize
     create_game
@@ -43,7 +43,9 @@ class Game
     @humans = 0
     @zombies = 0
     until @humans == 10
-      @board[rand(1..7)][rand(1..12)] = "H"
+      y = rand(1..7)
+      x = rand(1..12)
+      @board[y][x] = "H"
       @humans += 1
     end
     until @zombies == 1
@@ -51,18 +53,24 @@ class Game
       x = rand(1..12)
       if @board[y][x] != "H"
         @board[y][x] = "Z"
+        @human = Human.new(self, y, x)
+        puts "You are playing as a zombie. BITE SOMEONE!"
         @zombies += 1
       end
     end
   end
 
-  def is_full?
-
-  end
-
   def game_play
     print_board
-    play_again
+    case @humans
+    when @humans < 1
+      binding.pry
+      puts "The world has turned into zombies! Congratulations on your voracious brain appetite."
+      play_again
+    else
+      human_moves
+      game_play
+    end
   end
 
   def print_board
@@ -79,6 +87,10 @@ class Game
       printed_board += "\n\n"
     end
     puts printed_board
+  end
+
+  def human_moves
+    @human.move
   end
 
   def play_again
