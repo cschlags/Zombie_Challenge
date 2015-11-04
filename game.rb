@@ -5,7 +5,7 @@ require_relative "./human"
 require 'pry'
 
 class Game
-  attr_accessor :board, :boards
+  attr_accessor :board, :boards, :humans, :zombies
 
   def initialize
     create_game
@@ -13,6 +13,7 @@ class Game
 
   def create_game
     design_board
+    randomize_players
     game_play
   end
 
@@ -36,6 +37,27 @@ class Game
         i+=1
       end
     end
+  end
+
+  def randomize_players
+    @humans = 0
+    @zombies = 0
+    until @humans == 10
+      @board[rand(1..7)][rand(1..12)] = "H"
+      @humans += 1
+    end
+    until @zombies == 1
+      y = rand(1..7)
+      x = rand(1..12)
+      if @board[y][x] != "H"
+        @board[y][x] = "Z"
+        @zombies += 1
+      end
+    end
+  end
+
+  def is_full?
+
   end
 
   def game_play
