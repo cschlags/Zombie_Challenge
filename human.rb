@@ -103,18 +103,17 @@ class Human
   end
 
   def move_mark(row, column)
-    binding.pry
     @game.board[@row][@column] = " "
-    @game.board[@row+row][@column+column] = "Z"
+    @row += row
+    @column += column
+    @game.board[@row][@column] = "Z"
   end
 
   def check_bite?(row, column)
-    binding.pry
     return @game.board[@row+row][@column+column] == "H"
   end
   
   def zombify(row, column)
-    binding.pry
     @game.board[@row+row][@column+column] = "Z"
     @game.zombies += 1
     @game.humans -= 1
