@@ -64,11 +64,9 @@ class Game
     print_board
     case @humans
     when @humans < 1
-      binding.pry
       puts "The world has turned into zombies! Congratulations on your voracious brain appetite."
       play_again
     else
-      binding.pry
       human_moves
       game_play
     end

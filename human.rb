@@ -1,5 +1,3 @@
-require 'pry'
-
 class Human
   def initialize(game, row, column)
     #since I no longer have a board or simple computer player I need to change this
